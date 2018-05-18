@@ -1,0 +1,22 @@
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        // a number as key, and it's index in nums as value
+        HashMap<Integer, Integer> storage = new HashMap();
+        int[] result = new int[2];
+        
+        for (int i = 0; i < nums.length; i++) {
+            int needed = target - nums[i];
+    
+            if (storage.get(needed) != null) {
+                result[0] = storage.get(needed);
+                result[1] = i;
+                break;
+            }
+            else {
+                storage.put(nums[i], i);
+            }
+        }
+        
+        return result;
+    }
+}
