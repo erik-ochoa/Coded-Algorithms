@@ -1,0 +1,30 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        int[] longestStartEnd = new int[2];
+        int i = 0;
+        
+        // Checking every character going outwards to find palindromes
+        while (i < s.length()) {
+            //Have to call the function twice because palindromes would be even or odd-number characters
+            palindromeFromCenter(s, i, i, longestStartEnd);
+            palindromeFromCenter(s, i, i+1, longestStartEnd);
+            i++;
+        }
+        
+        return s.substring(longestStartEnd[0], longestStartEnd[1]);
+    }
+
+    private void palindromeFromCenter(String s, int left, int right, int[] longest) {
+        //looping outwards in search for the longest palindrome
+        while (left >= 0 && right <= s.length()-1 && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        
+        //checking if the found palindrome is longer than the longest palindrome
+        if ((right - (left+1)) > (longest[1] - longest[0])) {
+            longest[0] = left + 1;
+            longest[1] = right;
+        }
+    }
+}
