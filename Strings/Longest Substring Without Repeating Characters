@@ -1,0 +1,31 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        Set <Character> mySet = new HashSet();
+        int longest = 0;
+        int i = 0;
+        int j = 0;
+        
+        while (i < s.length()) {
+            
+            //Checking that the current element at positino I is not in the set, and adding it
+            char currAtI = s.charAt(i);
+            if (!mySet.contains(currAtI)) {
+                mySet.add(currAtI);
+                
+                if (mySet.size() > longest) { // if the current set is longer
+                    longest = mySet.size();
+                }
+                
+                i++;
+            }
+            else { //if it contains character at I, then keep removing from set with second pointer J, until character at I is removed
+                char currAtJ = s.charAt(j);
+                mySet.remove(currAtJ);
+                j++;
+            }
+            
+        }
+        
+        return longest;
+    }
+}
