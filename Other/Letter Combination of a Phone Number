@@ -1,0 +1,47 @@
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        ArrayList<String> result = new ArrayList<String>();
+        
+        if (digits.length() > 0) {
+            // mapping of character for each number in the keypad (mappings[2] = {"a","b","c"})
+            String[][] mappings = {{},{}, {"a", "b","c"} , {"d","e","f"}, {"g","h","i"}, {"j","k","l"},
+                               {"m","n","o"}, {"p","q","r","s"}, {"t","u","v"}, {"w","x","y","z"} };
+            
+            // adding the character for the first digits in the input (if input is 23, then result = {"a","b","c"})
+            Collections.addAll(result, mappings[Character.getNumericValue(digits.charAt(0))]);
+            
+            int i = 1;
+            while (i < digits.length()) {
+                // if i is 1, and digits[1] = 3, then digits_chars = {"d","e","f"}
+                String[] digit_chars = mappings[Character.getNumericValue(digits.charAt(i))];
+                ArrayList<String> new_result = new ArrayList<String>();
+
+                int j = 0;
+                while (j < digit_chars.length) {
+                    new_result.addAll(result);
+                    j = j + 1;
+                }
+                //after first iteration of i when input is 23, new_result = {"a","b","c", "a","b","c", "a","b","c"}                
+
+                int len = result.size();
+                int idx = 0;
+                for (String new_elm : digit_chars) { 
+                    while (idx < len) {
+                        new_result.set(idx, new_result.get(idx) + new_elm);
+                        idx = idx + 1;
+                    }
+                    //after first iteration of idx when input is 23, new_result = {"ad","bd","cd", "a","b","c", "a","b","c"}
+
+                    len = idx + result.size();
+                }
+                //after first iteration of i when input is 23, new_result = {"ad","bd","cd", "ae","be","ce", "af","bf","cf"}
+                
+                result = new_result;
+                
+                i++;
+            }
+        }
+        
+        return result;
+    }
+}
