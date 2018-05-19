@@ -1,0 +1,47 @@
+class Solution {
+    
+    //This is O(log(n))
+    public int searchInsert(int[] nums, int target) {    
+        //checking if it's smaller
+        if (target < nums[0]) {
+            return 0;
+        }
+        // checking if it's larget
+        if (target > nums[nums.length - 1]) {
+            return nums.length;
+        }
+        
+        
+        //performing binary search
+        int idx = (nums.length - 1) / 2; 
+        int left = 0;
+        int right = nums.length - 1;
+        while (idx >= 0 && idx <= nums.length - 1) {
+            
+            // if it is equal
+            if (nums[idx] == target) {
+                return idx;
+            }
+            
+            //if target is less, than move to the left
+            if (target < nums[idx]) {
+                right = idx;
+                idx = (left + idx) / 2;
+            } 
+            // if target is greater, move to the right, 
+            // but check if you have visited this position before because
+            // if it has been visited before, than the target is not in the array so return idx + 1
+            else {
+                left = idx;
+                int temp = (right + idx) / 2;
+                if (temp == idx) {
+                    return idx + 1;
+                } else {
+                    idx = temp;
+                }
+            }
+        }
+        
+        return 0;
+    }
+}
