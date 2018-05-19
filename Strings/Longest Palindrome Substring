@@ -1,4 +1,6 @@
 class Solution {
+
+    // This is O(n^2)
     public String longestPalindrome(String s) {
         int[] longestStartEnd = new int[2];
         int i = 0;
