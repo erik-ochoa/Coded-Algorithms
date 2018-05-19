@@ -1,4 +1,6 @@
 class Solution {
+
+    //This is O(n)
     public int[] twoSum(int[] nums, int target) {
         // a number as key, and it's index in nums as value
         HashMap<Integer, Integer> storage = new HashMap();
