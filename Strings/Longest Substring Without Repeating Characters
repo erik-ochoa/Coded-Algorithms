@@ -1,4 +1,6 @@
 class Solution {
+
+    // This is O(n)
     public int lengthOfLongestSubstring(String s) {
         Set <Character> mySet = new HashSet();
         int longest = 0;
