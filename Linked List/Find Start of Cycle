@@ -1,0 +1,64 @@
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        // traveler moves 1 step at a time
+        ListNode traveler = head;
+        // recon moves 2 steps at a time
+        ListNode recon = null;
+        if (head != null && head.next != null) {
+            traveler = traveler.next;
+            recon = head.next.next;
+
+            while(recon != null) {
+                // if they are equal, there is a cycle
+                if (traveler.val == recon.val) {
+                    // count the number of elements in the cycle
+                    ListNode similar = traveler;
+                    int count = 1;
+                    traveler = traveler.next;
+                    while (traveler.val != similar.val) {
+                        traveler = traveler.next;
+                        count++;
+                    }
+                    
+                    traveler = head;
+                    recon = head;
+                    
+                    // move recon count times from head;
+                    while (count > 0) {
+                        recon = recon.next;
+                        count--;
+                    }
+                    
+                    // move traveler and recon, one step at a time and they should meet at starting point of cycle
+                    while (traveler.val != recon.val) {
+                        traveler = traveler.next;
+                        recon = recon.next;
+                    }
+                    
+                    return traveler;
+                }
+
+                traveler = traveler.next;
+                if (recon.next != null) {
+                    recon = recon.next.next;
+                } else {
+                    recon = null;
+                }
+            }
+        }
+        
+        return null;
+        
+    }
+}
