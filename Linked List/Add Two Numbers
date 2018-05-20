@@ -1,0 +1,94 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode curr1 = l1; //traveler
+        ListNode curr2 = l2; //traveler
+        ListNode newl = null; //traveler
+        ListNode headOfNewl = null;
+        
+        int carry = 0;
+        int sum = curr1.val + curr2.val;
+    
+        // Taking care of the head
+        if (sum < 10){
+            newl = new ListNode(sum);
+            carry = 0;
+        } else {
+            newl = new ListNode(sum - 10);
+            carry = 1;
+        }
+        
+        headOfNewl = newl;
+        
+        curr1 = curr1.next;
+        curr2 = curr2.next;
+        
+        // Going through and adding
+        while (curr1 != null) {
+            if (curr2 != null) { // adds both values if both are not null
+                int sumAndCarry = curr1.val + curr2.val + carry;
+                
+                if (sumAndCarry < 10) {
+                    newl.next = new ListNode(sumAndCarry);
+                    carry = 0;
+                } else {
+                    newl.next = new ListNode(sumAndCarry - 10);
+                    carry = 1;
+                }
+
+                curr1 = curr1.next;
+                curr2 = curr2.next;
+                newl = newl.next;
+            } else { // only adds the curr1 value if curr1 is not null but curr2 is null (l1 is longer)
+                int sumAndCarry = curr1.val + carry;
+            
+                if (sumAndCarry < 10) {
+                    newl.next = new ListNode(sumAndCarry);
+                    carry = 0;
+                } else {
+                    newl.next = new ListNode(sumAndCarry - 10);
+                    carry = 1;
+                }
+        
+                newl = newl.next;
+                curr1 = curr1.next;
+            } 
+        }
+        
+        
+            
+        ListNode keepGoing = curr2;
+        
+        // Taking care when l2 is longer
+        while(keepGoing != null) {
+            int sumk = keepGoing.val + carry;
+            
+            if (sumk < 10) {
+                newl.next = new ListNode(sumk);
+                carry = 0;
+            } else {
+                newl.next = new ListNode(sumk - 10);
+                carry = 1;
+            }
+            
+            keepGoing = keepGoing.next;
+            newl = newl.next;
+            
+        }
+        
+        // Taking care of the last carry if there is one
+        if (carry == 1) {
+            newl.next = new ListNode(1);
+        }
+        
+        
+        return headOfNewl;
+    }
+}
