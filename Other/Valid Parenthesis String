@@ -1,0 +1,55 @@
+class Solution {
+    public boolean checkValidString(String s) {
+        // first pass goes from left to right
+        int validator = 0; // keeps track of parentheses
+        int stars = 0; // keeps track of stars
+        
+        for (int i = 0; i < s.length(); i++) {
+            char curr = s.charAt(i);
+            if (curr == '(') {
+                validator++;
+            } else if (curr == '*') {
+                stars++;
+            } else if (curr == ')') {
+                if (validator != 0) {
+                    validator--;
+                } else if (stars != 0) {
+                    stars--;
+                } else {
+                    return false;
+                }
+            }
+        }
+        
+        if (validator > stars) {
+            return false;
+        }
+        
+        // second pass goes from right to left
+        validator = 0; // keeps track of parentheses
+        stars = 0; // keeps track of stars
+        
+        for (int i = s.length() - 1; i >= 0; i--) {
+            char curr = s.charAt(i);
+            if (curr == ')') {
+                validator++;
+            } else if (curr == '*') {
+                stars++;
+            } else if (curr == '(') {
+                if (validator != 0) {
+                    validator--;
+                } else if (stars != 0) {
+                    stars--;
+                } else {
+                    return false;
+                }
+            }
+        }
+        
+        if (validator > stars) {
+            return false;
+        }
+        
+        return true;
+    }
+}
