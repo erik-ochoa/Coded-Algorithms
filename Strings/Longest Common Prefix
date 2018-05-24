@@ -1,27 +1,40 @@
 class Solution {
-    
-    // This is not binary search, but binary search would be faster but more code
+    // Worst case n*log(m), where n is length of array and m is the length of the strings
     public String longestCommonPrefix(String[] strs) {
         String res = "";
-        if (strs.length > 0 && strs[0].length() > 0) {
-            boolean stillGood = true;
-
-            int charIdx = 0;
-            while (charIdx < strs[0].length() && stillGood) {
+        if (strs.length > 0) {
+            
+            // binary search
+            boolean found = false;
+            int low = 0;
+            int high = strs[0].length();
+            int charIdx = (low + high)/2;
+            while (low < high && found == false) {
+                
+                // checking that subtrings in the rage low to charIdx + 1 are equal
+                boolean stillGood = true;
                 int arrIdx = 0;
                 while (arrIdx < strs.length && stillGood) {
-                    if (strs[arrIdx].length() <= charIdx || strs[0].charAt(charIdx) != strs[arrIdx].charAt(charIdx)) {
-                        stillGood = false;
+                    if (strs[arrIdx].length() <= charIdx 
+                        || !strs[0].substring(low, charIdx+1).equals(strs[arrIdx].substring(low, charIdx+1))) {
+                        stillGood = false; // if one substring is not equal, make it false
                     }
                     arrIdx++;
                 }
                 
+                // moving the range up
                 if (stillGood) {
-                    charIdx++;
+                    low = charIdx;
+                    charIdx = (low + high) / 2;
+                    if (charIdx == low) { // if charIdx and low are the same, then longest prefix found
+                        res = strs[0].substring(0, charIdx+1);
+                        found = true;
+                    }
+                } else { // moving the range lower
+                    high = charIdx;
+                    charIdx = (low + high) / 2;
                 }
             }
-            
-            res = strs[0].substring(0, charIdx);
         }
         
         return res;
