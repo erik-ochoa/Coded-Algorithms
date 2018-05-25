@@ -1,0 +1,35 @@
+class Solution {
+    public String countAndSay(int n) {
+        return helper(n, "1");
+    }
+    
+    public String helper(int n, String result) {
+        //base case
+        if (n == 1)
+            return result;
+        
+        StringBuilder curr = new StringBuilder();
+        char say = result.charAt(0);
+        int count = 1;
+        int idx = 1;
+
+        //counting how may of each character there are
+        while(idx < result.length()) {
+            char c = result.charAt(idx);
+            if (c == say) { // if the current character c is equal to the previous say, increament count
+                count++;
+            } else { // if it is different, add the current count and say to the string, and reset say and count
+                curr.append(count);
+                curr.append(say);
+                say = c;
+                count = 1;
+            }
+
+            idx++;
+        }
+        curr.append(count); // adding the last count and say
+        curr.append(say);
+
+        return helper(n-1, curr.toString()); // recursive call
+    }
+}
