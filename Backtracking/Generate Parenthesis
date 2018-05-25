@@ -1,0 +1,28 @@
+class Solution {
+    // setting things up
+    public List<String> generateParenthesis(int n) {
+        ArrayList<String> result = new ArrayList();
+        helperGenerate(result, n, n, "");
+        
+        return result;
+    }
+    
+    public void helperGenerate(ArrayList<String> result, int left, int right, String curr) {
+        // base case, once you run out of left and right parenthesis to add, then add curr to result
+        if (left == 0 && right == 0) {
+            result.add(curr);
+            return;
+        }
+        
+        // Adding left parenthesis if you have any left
+        if (left > 0) {
+            helperGenerate(result, left - 1 , right, curr + "("); // choose/ explore / unchoose
+        }
+        
+        // Adding right parenthesis if you have already used a left one
+        if (right > left) {
+            helperGenerate(result, left, right - 1, curr + ")"); // choose/ explore / unchoose
+        }
+   
+    }
+}
