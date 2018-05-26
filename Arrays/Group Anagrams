@@ -1,0 +1,34 @@
+    public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> result = new ArrayList();
+        // key is sorted string, value is the index that represents where the string is in result
+        Map<String, Integer> storage = new HashMap();
+        int insertHere = 0; 
+        
+        // go through the strings array
+        for (int i = 0; i < strs.length; i++) {
+            // normalize the strings by sorting it
+            char[] currChars = strs[i].toCharArray();
+            Arrays.sort(currChars);
+            String curr = new String(currChars); // sorted string
+            
+            // if the curr is not in map, add it
+            Integer idxOfString = storage.get(curr);
+            if (idxOfString == null) {
+                // add to result
+                List<String> newToAdd = new ArrayList();
+                newToAdd.add(strs[i]);
+                result.add(newToAdd);
+                // add to Map
+                storage.put(curr, insertHere);
+                insertHere++;
+            } else {
+                // if it's aready in the map, get the List from result where this group of anagrams are
+                List<String> toAdd = result.get(idxOfString);
+                // and add it
+                toAdd.add(strs[i]);
+            }       
+        }
+        
+        return result;
+    }
+}
